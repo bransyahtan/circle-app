@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "avatar": "https://i.pravatar.cc/300?u=a042581f4e29026707d",
+    "avatar": "https://i.pravatar.cc/150?img=39",
     "fullname": "Babang Tmapna",
     "username": "@makanbang",
     "posted_at": "5 hours ago",
@@ -14,9 +14,9 @@
   },
   {
     "id": 2,
-    "avatar": "https://i.pravatar.cc/300?u=a042581f4e29026707d",
-    "fullname": "Asal Ae",
-    "username": "@asalae",
+    "avatar": "https://i.pravatar.cc/150?img=54",
+    "fullname": "Jawa Tengah",
+    "username": "@makannasi",
     "posted_at": "5 hours ago",
     "content": "Lorem ipsum",
     "isPicture": false,
@@ -27,13 +27,13 @@
   },
   {
     "id": 3,
-    "avatar": "https://i.pravatar.cc/300?u=a042581f4e29026707d",
-    "fullname": "Asal Ae",
-    "username": "@asalae",
+    "avatar": "https://i.pravatar.cc/150?img=54",
+    "fullname": "hello",
+    "username": "@younglekkk",
     "posted_at": "5 hours ago",
     "content": "Lorem ipsum",
     "isPicture": true,
-    "picture": "https://i.pravatar.cc/300?u=a042581f4e29026707d",
+    "picture": "https://i.pravatar.cc/150?img=54",
     "like_count": 10,
     "comment_count": 2,
     "isLiked": true
