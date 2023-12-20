@@ -1,5 +1,5 @@
-import { Repository } from "typeorm/repository/Repository";
 import { Thread } from "../entity/thread";
+import { Repository } from "typeorm/repository/Repository";
 import { AppDataSource } from "../data-source";
 import { Request, Response } from "express";
 
@@ -26,18 +26,13 @@ class ThreadService {
         try {
             
             const { content, image, userId } = req.body;
-            
-           
             const newThread = this.threadRepository.create({
-
                 content,
                 image: image || null,
                 user:{
                     id: userId
-                    }
-            }
-                // req.body
-            );
+                }
+            });
     
             await this.threadRepository.save(newThread);
     
