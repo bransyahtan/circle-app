@@ -69,7 +69,7 @@ class UserService {
 
             const existUser = await this.userRepository.findOne({
                 where: { email: data.email },
-                select: ['id', 'username', 'email', 'fullName', 'password'],
+                // select: ['id', 'username', 'email', 'fullName', 'password', 'profilePicture', 'profileDescription'],
             });
 
             if (!existUser) {
@@ -91,11 +91,12 @@ class UserService {
                 });
             }
 
-            const { password: _, ...userLogin } = existUser;
+            const { password, ...userLogin } = existUser;
             const userForToken = {
                 id: userLogin.id,
                 username: userLogin.username,
                 email: userLogin.email,
+
             };
             const token = jwt.sign({ user: userForToken }, process.env.JWT_SECRET, {
                 expiresIn: '2h',
