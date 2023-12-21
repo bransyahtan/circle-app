@@ -15,6 +15,17 @@ class UserService {
             const { username, fullName, email, password, profilePicture, profileDescription } = req.body;
             const saltRound = 10
 
+            const existingUser = await this.userRepository.findOne({
+                where: [{ username }, { email }],
+            });
+
+            if (existingUser){
+                return res.status(400).json({
+                    message: "User already exists",
+                    status: 400
+                })
+            }
+
             const newPassword = await bcrypt.hash (password, saltRound);
             const newUser = this.userRepository.create({
                 username,
@@ -35,7 +46,7 @@ class UserService {
             });
         } catch (error) {
             console.error("Error while creating user:", error);
-            return res.status(500).json({ error: "Error while creating user" });
+            return res.status(500).json(error.message);
         }
     }
 
@@ -55,7 +66,7 @@ class UserService {
                 })
             }
             const passwordCheck = await bcrypt.compare(password, existUser.password)
-            // console.log(passwordCheck)
+            
 
             if (!passwordCheck) {
                 return res.status(404).json({
@@ -69,7 +80,6 @@ class UserService {
             })
             
         } catch (error) {
-            // console.error("Error while creating user:", error);
             return res.status(500).json(error.message);
         }
     }
