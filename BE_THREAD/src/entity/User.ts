@@ -19,10 +19,10 @@ export class User {
     @Column()
     password: string
 
-    @Column({nullable: true})
+    @Column({default: 'https://via.placeholder.com/200', nullable: true,})
     profilePicture: string
 
-    @Column({nullable: true})
+    @Column({default:'halo saya pengguna baru', nullable: true})
     profileDescription: string
 
     @OneToMany(()=> Thread, (thread) => thread.user)
