@@ -12,7 +12,7 @@ interface UserType {
   token: string;
 }
 
-export const login = createAsyncThunk(
+export const login = createAsyncThunk<UserType, { email: string, password: string }>(
   "/login",
   async ({ email, password }) => {
     try {

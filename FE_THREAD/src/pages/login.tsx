@@ -1,6 +1,8 @@
-import apiConfig from "@/api/apiConfig";
+// import apiConfig from "@/api/apiConfig";
+import { login } from "@/redux/slices/authSlice";
 import { FormControl, Input, Text, Button, Flex } from "@chakra-ui/react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -8,6 +10,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   // const [formData, setFormData] = useState({
   //   email: "",
@@ -15,19 +18,9 @@ const Login: React.FC = () => {
   // })
 
   const handleLogin = async () => {
-    try {
-      const response = await apiConfig.post("/login", {
-        email,
-        password,
-      });
-
-      const data = response.data;
-      console.log(data);
-      navigate("/");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+    dispatch(login(email, password));
   };
+
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center">
       <form>
