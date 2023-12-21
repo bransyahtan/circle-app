@@ -1,29 +1,80 @@
+import React, { useState } from "react";
 import { FormControl, Input, Text, Button, Flex } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import apiConfig from "../api/apiConfig";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function Register() {
+const Register: React.FC = () => {
+  const navigate = useNavigate();
+  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegister = async () => {
+    try {
+      const response = await apiConfig.post("/register", {
+        fullName,
+        username,
+        email,
+        password,
+      });
+
+      const data = response.data;
+      console.log(data);
+      navigate("/login");
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+  };
+
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center">
       <form>
         <FormControl
           isRequired
-          display={"flex"}
-          flexDirection={"column"}
+          display="flex"
+          flexDirection="column"
           gap={3}
-          width={"350px"}
-          bg={"transparent"}
-          color={"white"}
+          width="350px"
+          bg="transparent"
+          color="white"
           borderRadius={10}
           padding={5}
         >
-          <Text fontSize={"2xl"} fontWeight={"bold"} color={"#04a51e"}>
+          <Text fontSize="2xl" fontWeight="bold" color="#04a51e">
             Create Account Circle
           </Text>
-          <Input placeholder="Your Name" name="fullname" />
-          <Input placeholder="Username" name="username" />
-          <Input placeholder="Email" name="email" />
-          <Input type="password" placeholder="Password" name="password" />
-          <Button backgroundColor={"#04a51e"} color={"white"}>
+          <Input
+            placeholder="Your Name"
+            name="fullName"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+          <Input
+            placeholder="Username"
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input
+            type="email"
+            placeholder="Email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            backgroundColor="#04a51e"
+            color="white"
+            onClick={handleRegister}
+          >
             Create
           </Button>
           <Text>
@@ -33,4 +84,6 @@ export default function Register() {
       </form>
     </Flex>
   );
-}
+};
+
+export default Register;

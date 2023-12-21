@@ -16,8 +16,8 @@ import {
 } from "@chakra-ui/react";
 
 import {
-  BiSolidLike,
-  BiLike,
+  BiSolidHeart,
+  BiHeart,
   BiChat,
   BiRadioCircleMarked,
 } from "react-icons/bi";
@@ -55,7 +55,7 @@ export default function Feed({
               </Box>
             </Flex>
           </CardHeader>
-          <CardBody py={4}>
+          <CardBody py={2}>
             <Text>{content}</Text>
           </CardBody>
           {isPicture ? (
@@ -82,7 +82,7 @@ export default function Feed({
               borderRadius={20}
               w={"50px"}
               variant="ghost"
-              leftIcon={<Icon as={isLiked ? BiSolidLike : BiLike} />}
+              leftIcon={<Icon as={isLiked ? BiSolidHeart : BiHeart} />}
             >
               {like_count}
             </Button>
