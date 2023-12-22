@@ -4,7 +4,7 @@ import axios from "axios";
 
 interface AuthState {
   currentUser: null | UserType;
-  isLoading: boolean
+  isLoading: boolean;
 }
 
 interface UserType {
@@ -12,9 +12,42 @@ interface UserType {
   token: string;
 }
 
-export const login = createAsyncThunk<UserType, { email: string, password: string }>(
+interface LoginParams {
+  email: string;
+  password: string;
+}
+
+interface RegisterParams {
+  username: string;
+  fullName: string;
+  email: string;
+  password: string;
+}
+
+export const register = createAsyncThunk(
+  "/create",
+  async ({ username, fullName, email, password }: RegisterParams) => {
+    try {
+      const response = await apiConfig.post("/register", {
+        username,
+        fullName,
+        email,
+        password,
+      });
+      return response;
+    } catch (error) {
+      console.error("Error during login:", error);
+      if (axios.isAxiosError(error)) {
+        throw error.response!.data.message;
+      }
+      throw error;
+    }
+  }
+);
+
+export const login = createAsyncThunk(
   "/login",
-  async ({ email, password }) => {
+  async ({ email, password }: LoginParams) => {
     try {
       const response = await apiConfig.post("/login", {
         email,
@@ -26,37 +59,47 @@ export const login = createAsyncThunk<UserType, { email: string, password: strin
 
       return data;
     } catch (error) {
-      console.error("Error during login:", error);
+      
       if (axios.isAxiosError(error)) {
+        console.error("Error during login:", error);
         throw error.response!.data.message;
       }
-      throw error
+      throw error;
     }
   }
 );
 
 const initialState: AuthState = {
   currentUser: null,
-  isLoading: false
+  isLoading: false,
 };
 
 const authSlice = createSlice({
-    name: "auth",
-    initialState,
-    reducers: {},
-    extraReducers(builder) {
-      builder
-        .addCase(login.pending, (state) => {
-          state.isLoading = true;
-        })
-        .addCase(login.fulfilled, (state, action) => {
-          state.isLoading = false;
-          localStorage.setItem("token", action.payload.token);
-          localStorage.setItem("user", JSON.stringify(action.payload.user));
+  name: "auth",
+  initialState,
+  reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(login.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.isLoading = false;
+        localStorage.setItem("token", action.payload.token);
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
+       
+      });
 
-        });
-    },
-  });
+    builder
+      .addCase(register.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.isLoading = false;
+        console.log(action.payload);
+      });
+  },
+});
 
 // export { initialState };
-export default authSlice.reducer
+export default authSlice.reducer;
