@@ -1,16 +1,17 @@
 // import apiConfig from "@/api/apiConfig";
 import { login } from "@/redux/slices/authSlice";
+import { AppDispatch } from "@/redux/store/store";
 import { FormControl, Input, Text, Button, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   // const [formData, setFormData] = useState({
   //   email: "",
@@ -18,7 +19,23 @@ const Login: React.FC = () => {
   // })
 
   const handleLogin = async () => {
-    dispatch(login(email, password));
+    // dispatch(login({ email, password }));
+    // navigate("/");
+
+    // e.preventDefault();
+    dispatch(login({ email, password }))
+      .unwrap()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.message,
+        });
+      });
   };
 
   return (

@@ -4,6 +4,8 @@ import { User } from "./entity/User"
 import * as cors from 'cors';
 import { Request, Response } from "express"
 import { threadRouter, userRoute } from "./routes"
+require ('dotenv').config()
+
 
 AppDataSource.initialize().then(async () => {
     const app = express();
