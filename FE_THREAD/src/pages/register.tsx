@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { FormControl, Input, Text, Button, Flex } from "@chakra-ui/react";
-import apiConfig from "../api/apiConfig";
+// import apiConfig from "../api/apiConfig";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store/store";
+import { register } from "@/redux/slices/authSlice";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -9,22 +13,22 @@ const Register: React.FC = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleRegister = async () => {
-    try {
-      const response = await apiConfig.post("/register", {
-        fullName,
-        username,
-        email,
-        password,
+    dispatch(register({ fullName, username, email, password }))
+      .unwrap()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.message,
+        });
       });
-
-      const data = response.data;
-      console.log(data);
-      navigate("/login");
-    } catch (error) {
-      console.error("Error during registration:", error);
-    }
   };
 
   return (

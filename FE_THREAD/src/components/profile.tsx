@@ -11,8 +11,12 @@ import {
   CardFooter,
 } from "@chakra-ui/react";
 import { BiEdit } from "react-icons/bi";
+// import { useSelector } from "react-redux";
 
 export default function Profile() {
+  // // Use useSelector to get the profile data from the Redux store
+  // const { profilePicture, username, fullName, bio} =
+  //   useSelector((state) => state.auth);
   return (
     <Box>
       <Card variant={"filled"} m={4}>
@@ -30,6 +34,7 @@ export default function Profile() {
             position={"relative"}
           >
             <Image
+              className="profilePicture"
               src="https://img.freepik.com/free-photo/beauty-people-emotions-summer-leisure-vacation-concept-tender-beautiful-asian-girl-white-dress-pointing-finger-upper-left-corner-inviting-take-look-new-promo-offer-pink-background_1258-59482.jpg?w=740&t=st=1702991448~exp=1702992048~hmac=a39b6e9640c658470fdcc3eb1bfee932a55425862f14b86dbf3aedef82fac833https://img.freepik.com/free-photo/beauty-people-emotions-summer-leisure-vacation-concept-tender-beautiful-asian-girl-white-dress-pointing-finger-upper-left-corner-inviting-take-look-new-promo-offer-pink-background_1258-59482.jpg?w=740&t=st=1702991448~exp=1702992048~hmac=a39b6e9640c658470fdcc3eb1bfee932a55425862f14b86dbf3aedef82fac833"
               boxSize={"70px"}
               rounded={"full"}
@@ -56,13 +61,20 @@ export default function Profile() {
               <Icon as={BiEdit} /> Edit Profile
             </Flex>
           </Button>
-          <Text fontWeight={"bold"} fontSize={"2xl"} mt={4}>
+          <Text
+            className="fullName"
+            fontWeight={"bold"}
+            fontSize={"2xl"}
+            mt={4}
+          >
             ✨Bransyah Sultan✨
           </Text>
-          <Text fontSize={"sm"} color={"gray.500"}>
+          <Text className="username" fontSize={"sm"} color={"gray.500"}>
             @separuhkafir
           </Text>
-          <Text>picked over by the worms, and weird fishes</Text>
+          <Text className="bio">
+            picked over by the worms, and weird fishes
+          </Text>
         </CardBody>
         <CardFooter justifyContent={"start"} gap={4} pt={0}>
           <Flex gap={2}>

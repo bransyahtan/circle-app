@@ -25,6 +25,9 @@ export class User {
     @Column({default:'halo saya pengguna baru', nullable: true})
     profileDescription: string
 
-    @OneToMany(()=> Thread, (thread) => thread.user)
+    @OneToMany(()=> Thread, (thread) => thread.user,{
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
+    })
     thread:Thread[]
 }
