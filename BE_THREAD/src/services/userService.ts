@@ -109,6 +109,31 @@ class UserService {
             return res.status(500).json(error.message);
         }
     }
+
+    async check(req: Request, res: Response) : Promise<any> { 
+        try {
+          const loginSession = res.locals.loginSession
+          
+          const user = await this.userRepository.findOne({ where: { id: loginSession.user.id }})
+    
+          return res.status(200).json({
+            message: "token is valid",
+            user
+          })
+        } catch (error) {
+          return res.status(500).json({ message: `Error while check token on service` })
+        }
+      }
+
+    async logout(req: Request, res: Response) : Promise<any> { 
+        delete req.headers["authorization"]
+        return res.status(200).json ({
+            message: "Succes Logout"
+        }) 
+    }
+    
 }
+
+
 
 export default new UserService();

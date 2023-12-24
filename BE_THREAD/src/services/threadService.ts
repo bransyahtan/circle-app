@@ -29,9 +29,9 @@ class ThreadService {
             const newThread = this.threadRepository.create({
                 content,
                 image: image || null,
-                user:{
-                    id: userId
-                }
+                // user:{
+                //     id: userId
+                // }
             });
     
             await this.threadRepository.save(newThread);

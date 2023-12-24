@@ -65,8 +65,7 @@ export default function Sidebar() {
       </Box>
       <Button
         onClick={() => {
-          localStorage.removeItem("token");
-          navigate("/login");
+          handleLogout;
         }}
         leftIcon={<BiLogOut />}
         variant="unstyled"

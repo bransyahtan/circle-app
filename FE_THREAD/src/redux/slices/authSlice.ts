@@ -70,15 +70,15 @@ export const login = createAsyncThunk(
   }
 );
 
-// export const logout = createAsyncThunk<void, void>("auth/logout", async () => {
-//   try {
-//     localStorage.removeItem("token");
-//     localStorage.removeItem("user");
-//   } catch (error) {
-//     console.error("Error during logout:", error);
-//     throw error;
-//   }
-// });
+export const logout = createAsyncThunk<void, void>("/logout", async () => {
+  try {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  } catch (error) {
+    console.error("Error during logout:", error);
+    throw error;
+  }
+});
 
 const initialState: AuthState = {
   currentUser: null,
