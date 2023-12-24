@@ -16,7 +16,10 @@ export class Thread  {
     @Column({ type: "date", default :() => "CURRENT_TIMESTAMP"})
     posted_at: Date
 
-    @ManyToOne(() => User, (user) => user.thread)
+    @ManyToOne(() => User, (user) => user.thread,{
+        onDelete:"CASCADE",
+        onUpdate:"CASCADE",
+    })
     user: User;
 
 } 

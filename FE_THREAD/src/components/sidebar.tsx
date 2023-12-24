@@ -17,6 +17,7 @@ import {
   BiSun,
   BiMoon,
 } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const items = [
   { icon: BiHomeCircle, text: "Home" },
@@ -27,6 +28,7 @@ const items = [
 
 export default function Sidebar() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const navigate = useNavigate();
   return (
     <Stack h="100vh" justifyContent="space-between" p={8} position={"fixed"}>
       <Box>
@@ -61,7 +63,14 @@ export default function Sidebar() {
           </Button>
         </Stack>
       </Box>
-      <Button leftIcon={<BiLogOut />} variant="unstyled">
+      <Button
+        onClick={() => {
+          localStorage.removeItem("token");
+          navigate("/login");
+        }}
+        leftIcon={<BiLogOut />}
+        variant="unstyled"
+      >
         Logout
       </Button>
     </Stack>

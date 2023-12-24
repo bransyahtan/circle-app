@@ -34,7 +34,8 @@ export const register = createAsyncThunk(
         email,
         password,
       });
-      return response;
+      const responseData = response.data;  // Modify this line based on your API response structure
+      return responseData;
     } catch (error) {
       console.error("Error during login:", error);
       if (axios.isAxiosError(error)) {
@@ -68,6 +69,16 @@ export const login = createAsyncThunk(
     }
   }
 );
+
+// export const logout = createAsyncThunk<void, void>("auth/logout", async () => {
+//   try {
+//     localStorage.removeItem("token");
+//     localStorage.removeItem("user");
+//   } catch (error) {
+//     console.error("Error during logout:", error);
+//     throw error;
+//   }
+// });
 
 const initialState: AuthState = {
   currentUser: null,
