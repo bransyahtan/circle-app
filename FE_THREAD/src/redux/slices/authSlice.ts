@@ -1,9 +1,10 @@
 import apiConfig from "@/api/apiConfig";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+// import { jwtDecode } from "jwt-decode";
 
 interface AuthState {
-  currentUser: null | UserType;
+  currentUser: object | undefined;
   isLoading: boolean;
 }
 
@@ -46,6 +47,7 @@ export const register = createAsyncThunk(
   }
 );
 
+
 export const login = createAsyncThunk(
   "/login",
   async ({ email, password }: LoginParams) => {
@@ -56,7 +58,13 @@ export const login = createAsyncThunk(
       });
 
       const data: UserType = response.data;
-      console.log(data);
+      // console.log(data.token);
+
+      // // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // const token: any = data.token;
+
+      // // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // const payload: any = jwtDecode(token);
 
       return data;
     } catch (error) {
@@ -70,18 +78,20 @@ export const login = createAsyncThunk(
   }
 );
 
-// export const logout = createAsyncThunk<void, void>("auth/logout", async () => {
-//   try {
-//     localStorage.removeItem("token");
-//     localStorage.removeItem("user");
-//   } catch (error) {
-//     console.error("Error during logout:", error);
-//     throw error;
-//   }
-// });
+export const logout = createAsyncThunk<void, void>("/logout", async () => {
+  try {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  } catch (error) {
+    console.error("Error during logout:", error);
+    throw error;
+  }
+});
+
+
 
 const initialState: AuthState = {
-  currentUser: null,
+  currentUser: {},
   isLoading: false,
 };
 
@@ -98,9 +108,9 @@ const authSlice = createSlice({
         state.isLoading = false;
         localStorage.setItem("token", action.payload.token);
         localStorage.setItem("user", JSON.stringify(action.payload.user));
+        state.currentUser = action.payload.user;
        
       });
-
     builder
       .addCase(register.pending, (state) => {
         state.isLoading = true;

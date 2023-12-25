@@ -19,7 +19,7 @@ export class User {
     @Column()
     password: string
 
-    @Column({default: 'https://via.placeholder.com/200', nullable: true,})
+    @Column({default: 'https://via.placeholder.com/200', nullable: true})
     profilePicture: string
 
     @Column({default:'halo saya pengguna baru', nullable: true})

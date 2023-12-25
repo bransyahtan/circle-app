@@ -1,3 +1,5 @@
+import { logout } from "@/redux/slices/authSlice";
+import { AppDispatch } from "@/redux/store/store";
 import {
   Box,
   Stack,
@@ -17,7 +19,9 @@ import {
   BiSun,
   BiMoon,
 } from "react-icons/bi";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const items = [
   { icon: BiHomeCircle, text: "Home" },
@@ -29,6 +33,29 @@ const items = [
 export default function Sidebar() {
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleLogout = () => {
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "sukses",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/login");
+      })
+      .catch((error) =>
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.message,
+        })
+      );
+  };
+
   return (
     <Stack h="100vh" justifyContent="space-between" p={8} position={"fixed"}>
       <Box>
@@ -65,8 +92,7 @@ export default function Sidebar() {
       </Box>
       <Button
         onClick={() => {
-          localStorage.removeItem("token");
-          navigate("/login");
+          handleLogout();
         }}
         leftIcon={<BiLogOut />}
         variant="unstyled"

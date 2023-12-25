@@ -94,21 +94,110 @@ class UserService {
             const { password, ...userLogin } = existUser;
             const userForToken = {
                 id: userLogin.id,
-                username: userLogin.username,
-                email: userLogin.email,
+                // username: userLogin.username,
+                // email: userLogin.email,
+                // fullName: userLogin.fullName,
+                // profilePicture: userLogin.profilePicture,
 
             };
             const token = jwt.sign({ user: userForToken }, process.env.JWT_SECRET, {
                 expiresIn: '2h',
             });
 
-            return res.status(200).json({ user: userLogin, token });
+            return res.status(200).json({ token });
 
         } catch (error) {
             console.error('Error while logging in:', error);
             return res.status(500).json(error.message);
         }
     }
+
+    async check(req: Request, res: Response) : Promise<any> { 
+        try {
+          const loginSession = res.locals.loginSession
+          
+          const user = await this.userRepository.findOne({ where: { id: loginSession.user.id }})
+    
+          return res.status(200).json({
+            message: "token is valid",
+            user
+          })
+        } catch (error) {
+          return res.status(500).json({ message: `Error while check token on service` })
+        }
+      }
+
+    async logout(req: Request, res: Response) : Promise<any> { 
+        delete req.headers["authorization"]
+        return res.status(200).json ({
+            message: "Succes Logout"
+        }) 
+    }
+
+    async find(req: Request, res: Response): Promise<Response> {
+		try {
+			const users = await this.userRepository.find();
+			return res.status(200).json({ code: 200, data: users });
+		} catch (error) {
+			res.status(500).json({ error: "error while getting users" });
+		}
+	} 
+
+    async findOne(req: Request, res: Response): Promise<Response> {
+        try {
+            const requestedUserId = parseInt(req.params.id);
+    
+            const user = await this.userRepository.findOne({
+                where: { id: requestedUserId },
+                relations: ["thread"],
+            });
+    
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
+    
+            return res.status(200).json(user);
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
+        }
+    }
+    
+    async delete(req: Request, res: Response): Promise<Response> {
+        try {
+    
+            const loggedInUserId = res.locals.loginSession.user.id;
+            const requestedUserId = parseInt(req.params.id);
+    
+            // Check if the user is trying to delete their own account
+            if (loggedInUserId !== requestedUserId) {
+                return res.status(403).json({ error: "Unauthorized: You can only delete your own account" });
+            }
+    
+            const user = await this.userRepository.findOne({
+                where: { id: requestedUserId },
+            });
+    
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
+    
+            const deleteUser = await this.userRepository.remove(user);
+            return res.status(200).json(deleteUser);
+        } catch (error) {
+            console.error('Error in delete:', error);
+    
+            // Check if the error has a message property
+            const errorMessage = error.message || 'Internal Server Error';
+    
+            return res.status(500).json({ error: errorMessage });
+        }
+    }
+    
+    
+    
+    
 }
+
+
 
 export default new UserService();
