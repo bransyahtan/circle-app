@@ -16,8 +16,8 @@ export default new class authMiddleware {
         try {
             const loginSession = jwt.verify(token, "acong")
             res.locals.loginSession = loginSession
-
             next()
+            
         } catch (error) {
             return res.status(401).json({ 
                 message: "token not valid",
