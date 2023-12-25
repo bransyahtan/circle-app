@@ -24,7 +24,6 @@ class ThreadService {
 
     async create(req: Request, res: Response): Promise<Response> {
         try {
-            // const userId = 
             const { content, image, userId } = req.body;
 
             const newThread = this.threadRepository.create({
