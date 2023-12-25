@@ -104,11 +104,11 @@ export default function Profile() {
         })}
         <CardFooter justifyContent={"start"} gap={4} pt={0}>
           <Flex gap={2}>
-            <Text fontWeight={"bold"}>666</Text>
+            <Text fontWeight={"bold"}>111</Text>
             <Text color={"gray.500"}>Following</Text>
           </Flex>
           <Flex gap={2}>
-            <Text fontWeight={"bold"}>999</Text>
+            <Text fontWeight={"bold"}>100</Text>
             <Text color={"gray.500"}>Followers</Text>
           </Flex>
         </CardFooter>
