@@ -14,6 +14,15 @@ class userController {
 	logout(req: Request, res: Response) {
 		userService.logout(req, res);
 	}
+	find(req: Request, res: Response) {
+		userService.find(req, res);
+	}
+	findOne(req: Request, res: Response) {
+		userService.findOne(req, res);
+	}
+	delete(req: Request, res: Response) {
+		userService.delete(req, res);
+	}
 }
 
 export default new userController();

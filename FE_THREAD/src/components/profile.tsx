@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
   Button,
@@ -10,13 +11,35 @@ import {
   Flex,
   CardFooter,
 } from "@chakra-ui/react";
+import { RootState } from "../redux/store/store";
+import { useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
-// import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUser } from "@/redux/slices/userSlice";
+import { jwtDecode } from "jwt-decode";
 
 export default function Profile() {
-  // // Use useSelector to get the profile data from the Redux store
-  // const { profilePicture, username, fullName, bio} =
-  //   useSelector((state) => state.auth);
+  const dataUser = useSelector((state: RootState) => state.user.currentUser);
+  const dispatch = useDispatch();
+  const userId: any = localStorage.getItem("token");
+  const token: any = jwtDecode(userId);
+
+  console.log(token.user.id);
+  useEffect(() => {
+    console.log(userId);
+    dispatch(getAllUser());
+  }, [userId]);
+
+  const userLogin = dataUser?.filter(
+    (user: any) => Number(token.user.id) === user.id
+  );
+  useEffect(() => {
+    if (dataUser) {
+      console.log(dataUser);
+      console.log(userLogin);
+    }
+  }, [dataUser, userLogin]);
+
   return (
     <Box>
       <Card variant={"filled"} m={4}>
@@ -25,57 +48,60 @@ export default function Profile() {
             My Profile
           </Text>
         </CardHeader>
-        <CardBody>
-          <Box
-            w={"full"}
-            h={"150px"}
-            bgGradient={"linear(to-r, red.400, pink.600)"}
-            borderRadius={"10"}
-            position={"relative"}
-          >
-            <Image
-              className="profilePicture"
-              src="https://img.freepik.com/free-photo/beauty-people-emotions-summer-leisure-vacation-concept-tender-beautiful-asian-girl-white-dress-pointing-finger-upper-left-corner-inviting-take-look-new-promo-offer-pink-background_1258-59482.jpg?w=740&t=st=1702991448~exp=1702992048~hmac=a39b6e9640c658470fdcc3eb1bfee932a55425862f14b86dbf3aedef82fac833https://img.freepik.com/free-photo/beauty-people-emotions-summer-leisure-vacation-concept-tender-beautiful-asian-girl-white-dress-pointing-finger-upper-left-corner-inviting-take-look-new-promo-offer-pink-background_1258-59482.jpg?w=740&t=st=1702991448~exp=1702992048~hmac=a39b6e9640c658470fdcc3eb1bfee932a55425862f14b86dbf3aedef82fac833"
-              boxSize={"70px"}
-              rounded={"full"}
-              borderWidth={2}
-              borderColor={"gray.200"}
-              borderStyle={"solid"}
-              position={"absolute"}
-              bottom={"-40px"}
-              left={"30px"}
-            />
-          </Box>
-          <Button
-            bgColor={"#04a51e"}
-            _hover={{ bg: "#019119" }}
-            display={"block"}
-            ml={"auto"}
-            borderRadius={"20"}
-            size={"sm"}
-            mt={2}
-            border={"1px"}
-            borderColor={"gray.500"}
-          >
-            <Flex alignItems={"center"} gap={2}>
-              <Icon as={BiEdit} /> Edit Profile
-            </Flex>
-          </Button>
-          <Text
-            className="fullName"
-            fontWeight={"bold"}
-            fontSize={"2xl"}
-            mt={4}
-          >
-            ✨Bransyah Sultan✨
-          </Text>
-          <Text className="username" fontSize={"sm"} color={"gray.500"}>
-            @separuhkafir
-          </Text>
-          <Text className="bio">
-            picked over by the worms, and weird fishes
-          </Text>
-        </CardBody>
+
+        {userLogin.map((user: any, index: number) => {
+          return (
+            <CardBody key={index}>
+              <Box
+                w={"full"}
+                h={"150px"}
+                bgGradient={"linear(to-r, red.400, pink.600)"}
+                borderRadius={"10"}
+                position={"relative"}
+              >
+                <Image
+                  className="profilePicture"
+                  src={user.profilePicture}
+                  boxSize={"70px"}
+                  rounded={"full"}
+                  borderWidth={2}
+                  borderColor={"gray.200"}
+                  borderStyle={"solid"}
+                  position={"absolute"}
+                  bottom={"-40px"}
+                  left={"30px"}
+                />
+              </Box>
+              <Button
+                bgColor={"#04a51e"}
+                _hover={{ bg: "#019119" }}
+                display={"block"}
+                ml={"auto"}
+                borderRadius={"20"}
+                size={"sm"}
+                mt={2}
+                border={"1px"}
+                borderColor={"gray.500"}
+              >
+                <Flex alignItems={"center"} gap={2}>
+                  <Icon as={BiEdit} /> Edit Profile
+                </Flex>
+              </Button>
+              <Text
+                className="fullName"
+                fontWeight={"bold"}
+                fontSize={"2xl"}
+                mt={4}
+              >
+                ✨{user.fullName}✨
+              </Text>
+              <Text className="username" fontSize={"sm"} color={"gray.500"}>
+                @{user.username}
+              </Text>
+              <Text className="bio">{user.profileDescription}</Text>
+            </CardBody>
+          );
+        })}
         <CardFooter justifyContent={"start"} gap={4} pt={0}>
           <Flex gap={2}>
             <Text fontWeight={"bold"}>666</Text>
