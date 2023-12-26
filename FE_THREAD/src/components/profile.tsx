@@ -28,6 +28,7 @@ export default function Profile() {
   useEffect(() => {
     console.log(userId);
     dispatch(getAllUser());
+    // eslint-disable-next-line
   }, [userId]);
 
   const userLogin = dataUser?.filter(
