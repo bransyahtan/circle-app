@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home, Login, Register } from "./pages";
+import { DetailThread, Home, Login, Register } from "./pages";
 import { PrivateRoute } from "./privateRoute/privateRoute";
 
 function App() {
@@ -11,6 +11,10 @@ function App() {
         {
           path: "",
           element: <Home />,
+        },
+        {
+          path: "/detail-thread",
+          element: <DetailThread />,
         },
       ],
     },
