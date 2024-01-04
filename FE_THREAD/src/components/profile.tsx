@@ -94,7 +94,7 @@ export default function Profile() {
                 fontSize={"2xl"}
                 mt={4}
               >
-                ✨{user.fullName}
+                ✨{user.fullName}✨
               </Text>
               <Text className="username" fontSize={"sm"} color={"gray.500"}>
                 @{user.username}
