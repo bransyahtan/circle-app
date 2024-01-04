@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm"
 import { User } from "./User";
+import { Reply } from "./replies";
 
 @Entity({name: "threads"})
 export class Thread  {
@@ -21,5 +22,8 @@ export class Thread  {
         onUpdate:"CASCADE",
     })
     user: User;
+
+    @OneToMany(() => Reply, reply => reply.thread)
+    replies: Reply[]
 
 } 

@@ -30,4 +30,5 @@ export class User {
         onDelete: "CASCADE"
     })
     thread:Thread[]
+    replies: any;
 }
