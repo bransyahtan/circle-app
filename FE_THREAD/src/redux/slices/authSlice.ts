@@ -58,13 +58,6 @@ export const login = createAsyncThunk(
       });
 
       const data: UserType = response.data;
-      // console.log(data.token);
-
-      // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // const token: any = data.token;
-
-      // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // const payload: any = jwtDecode(token);
 
       return data;
     } catch (error) {
