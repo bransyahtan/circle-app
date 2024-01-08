@@ -97,7 +97,7 @@ export default function Profile() {
                 ✨{user.fullName}✨
               </Text>
               <Text className="username" fontSize={"sm"} color={"gray.500"}>
-                @{user.username}
+                @{user.username} :3
               </Text>
               <Text className="bio">{user.profileDescription}</Text>
             </CardBody>
