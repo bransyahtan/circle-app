@@ -79,6 +79,7 @@ const Login: React.FC = () => {
           </Button>
           <Text>
             Dont Have an Account? <Link to="/register">Register</Link>
+            {/* hehehehe */}
           </Text>
         </FormControl>
       </form>
