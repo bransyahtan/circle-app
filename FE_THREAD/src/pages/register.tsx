@@ -16,6 +16,7 @@ const Register: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleRegister = async () => {
+    // hehe
     dispatch(register({ fullName, username, email, password }))
       .unwrap()
       .then(() => {
