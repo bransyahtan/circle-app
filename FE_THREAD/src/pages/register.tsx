@@ -26,7 +26,7 @@ const Register: React.FC = () => {
         console.log(error);
         Swal.fire({
           icon: "error",
-          title: "Error",
+          title: "Error!",
           text: error.message,
         });
       });
