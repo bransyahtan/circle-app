@@ -31,9 +31,6 @@ const Register: React.FC = () => {
         });
       });
   };
-
-  // masa si?
-
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center">
       <form>
