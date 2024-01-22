@@ -53,7 +53,6 @@ const Register: React.FC = () => {
             name="fullName"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            // test
           />
           <Input
             placeholder="Username"
